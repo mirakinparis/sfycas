@@ -25,6 +25,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
+    public const CAS_LOGIN_ROUTE ='app_cas_login';
 
     private $entityManager;
     private $urlGenerator;
@@ -41,7 +42,8 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function supports(Request $request)
     {
-        return self::LOGIN_ROUTE === $request->attributes->get('_route')
+        return (self::LOGIN_ROUTE === $request->attributes->get('_route') ||
+               self::CAS_LOGIN_ROUTE === $request->attributes->get('_route'))
             && $request->isMethod('POST');
     }
 
@@ -91,9 +93,26 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
-            return new RedirectResponse($targetPath);
+        /*echo '<pre>';
+
+        print_r($request->query->get('service'));
+        echo '<br>';
+        print_r($this->getTargetPath($request->getSession(), $providerKey));
+        echo '<br>';
+        print_r($request);
+
+        echo '</pre>';
+        */
+        $service=$request->query->get('service');
+        if(isset($service)) {
+            return new RedirectResponse($request->query->get('service'));
+        } else {
+            return new RedirectResponse('/admin');
         }
+
+        /*if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+            //return new RedirectResponse($targetPath);
+        }*/
 
         // For example : return new RedirectResponse($this->urlGenerator->generate('some_route'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);

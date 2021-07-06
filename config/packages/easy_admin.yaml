@@ -1,7 +1,29 @@
 easy_admin:
     entities:
-      - App\Entity\User
-#        # List the entity class name you want to manage
+      User:
+          class: App\Entity\User
+          label: User
+          list:
+              fields:
+                - {property: 'username'}
+                - {property: 'roles', type: 'App\Form\Type\SfyCASRoleType'}
+                - {property: 'email', type: 'email'}
+          edit:
+              fields:
+                - {property: 'username'}
+                - {property: 'roles', type: 'App\Form\Type\SfyCASRoleType'}
+                - {property: 'email', type: 'email'}
+                #- {property: 'password', type: 'password', type_options: { required: false }}
+                - { property: plainPassword, type: 'password', type_options: { required: false } }
+          new:
+            fields:
+              - {property: 'username'}
+              - {property: 'email', type: 'email'}
+              - {property: 'password', type: 'password', type_options: { required: false }}
+              # plain password
+              - { property: plainPassword, type: 'password', type_options: { required: false } }
+#      - App\Entity\User
+#        # List the entity cla   ss name you want to manage
 #        - App\Entity\Product
 #        - App\Entity\Category
 #        - App\Entity\User

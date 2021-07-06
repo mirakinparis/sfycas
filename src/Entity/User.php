@@ -41,6 +41,11 @@ class User implements UserInterface
      */
     private $password;
 
+
+
+    private ?string $plainPassword = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,6 +62,14 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
 
     /**
      * A visual identifier that represents this user.
@@ -75,8 +88,9 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        if(empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
         return array_unique($roles);
     }
 
@@ -90,17 +104,29 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
+
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $password): void
+    {
+        $this->plainPassword = $password;
+    }
+
 
     /**
      * Returning a salt is only needed, if you are not using a modern
@@ -126,6 +152,4 @@ class User implements UserInterface
     {
         return (string) $this->getEmail();
     }
-
-
 }
