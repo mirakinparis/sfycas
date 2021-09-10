@@ -19,7 +19,7 @@ class SfyCASSession
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User")
+     * @ORM\OneToOne(targetEntity=User::class)
      */
     private $user;
 

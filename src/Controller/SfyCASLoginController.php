@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 class SfyCASLoginController extends AbstractController
 {
     /**
-     * @Route("/cas/index", name="app_cas_index")
+     * @Route("/cas/index", name="app_home")
      */
     public function index(): Response
     {
@@ -24,6 +24,7 @@ class SfyCASLoginController extends AbstractController
             'controller_name' => 'SfyCASLoginController',
         ]);
     }
+
 
     /**
      * @Route("/cas/login", name="app_cas_login")
